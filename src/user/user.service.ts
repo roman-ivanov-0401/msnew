@@ -1,17 +1,17 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserSchema } from './user.entity';
+import { UserEntity } from './user.entity';
 import { Repository } from 'typeorm';
 import { PostUserDto, PutUserDto } from './user.dto';
 
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(UserSchema)
-    private userRepository: Repository<UserSchema>,
+    @InjectRepository(UserEntity)
+    private userRepository: Repository<UserEntity>,
   ) {}
 
-  getUser(id: string): Promise<UserSchema> {
+  getUser(id: string): Promise<UserEntity> {
     try {
       return this.userRepository.findOne({ where: { id } });
     } catch (e) {
@@ -22,7 +22,7 @@ export class UserService {
     }
   }
 
-  create(dto: PostUserDto): Promise<UserSchema> {
+  create(dto: PostUserDto): Promise<UserEntity> {
     try {
       const newUser = this.userRepository.create(dto);
       return this.userRepository.save(newUser);
@@ -34,7 +34,7 @@ export class UserService {
     }
   }
 
-  async update(id: string, dto: PutUserDto): Promise<UserSchema> {
+  async update(id: string, dto: PutUserDto): Promise<UserEntity> {
     try {
       await this.userRepository.update({ id }, dto);
       return this.userRepository.findOne({ where: { id } });

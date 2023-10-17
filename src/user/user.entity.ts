@@ -1,7 +1,17 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
+import { ArticleEntity } from '../article/article.entity';
+import { PlaylistEntity } from '../playlist/playlist.entity';
+import { LibraryEntity } from '../library/library.entity';
 
-@Entity()
-export class UserSchema {
+@Entity('user')
+export class UserEntity {
   @PrimaryGeneratedColumn()
   id: string;
 
@@ -16,4 +26,14 @@ export class UserSchema {
 
   @Column()
   password: string;
+
+  @OneToMany(() => PlaylistEntity, (playlist) => playlist.author)
+  playlists: PlaylistEntity[];
+
+  @OneToMany(() => ArticleEntity, (article) => article.author)
+  articles: ArticleEntity[];
+
+  @OneToOne(() => LibraryEntity)
+  @JoinColumn()
+  library: LibraryEntity;
 }

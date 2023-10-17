@@ -1,10 +1,16 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('genre')
-export class GenreEntity {
+@Entity('radio')
+export class RadioEntity {
   @PrimaryGeneratedColumn()
   id: string;
 
   @Column()
   name: string;
+
+  @Column()
+  description: string;
+
+  @Column()
+  cover: string;
 }
